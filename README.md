@@ -6,7 +6,7 @@ solved with c++
 
 [![Solved.ac 프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=chrisais9)](https://solved.ac/chrisais9)
 
-### .gitignore strategy 
+## .gitignore strategy 
 since solved with xcode IDE, removed every meaningless files using scipts by following
 ```
 # Ignore Everything
