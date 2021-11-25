@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#define INF 999999999
+#define INF 0x7fffffff
 using namespace std;
 typedef pair<int,int> ci;
 struct cmp
@@ -12,14 +12,15 @@ struct cmp
     }
 };
 priority_queue< ci,vector<ci>,cmp> pq;
-vector< vector<ci> > v;
+vector<ci> v[100001];
 int n,m,s,e;
 int dist[20001];
 int main()
 {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
     int i;
     cin>>n>>m;
-    v.resize(n+1);
     for(i=1;i<=n;i++)dist[i]=INF;
     for(i=0;i<m;i++)
     {
@@ -33,7 +34,9 @@ int main()
     while(!pq.empty())
     {
         int now=pq.top().first;
+        int dis=pq.top().second;
         pq.pop();
+        if(dist[now] < dis) continue;
         for(i=0;i<v[now].size();i++)
         {
             int next=v[now][i].first;
