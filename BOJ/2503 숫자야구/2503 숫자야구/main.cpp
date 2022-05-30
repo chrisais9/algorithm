@@ -1,33 +1,87 @@
-#include <stdio.h>
+#include <iostream>
+using namespace std;
+int num[4],n,ck[10];
+struct cc
+{
+    int t[4],s,b;
+}d[100];
+void ini(int nu)
+{
+    int cnt=0;
+    do
+    {
+        if(nu==0)break;
+        num[2-cnt++]=nu%10;
+        nu/=10;
+    }while(1);
+}
+void dini(int nu,int i)
+{
+    int cnt=0;
+    do
+    {
+        if(nu==0)return;
+        d[i].t[2-cnt++]=nu%10;
+        nu/=10;
+    }while(1);
+}
+int strike()
+{
+    int i,j,cnt;
+    for(i=0;i<n;i++)
+    {
+        cnt=0;
+        for(j=0;j<3;j++)if(d[i].t[j]==num[j])cnt++;
+        if(cnt!=d[i].s)return 0;
 
-int n, ans, a[3], b[3];
-struct ABC {
-    int num, st, ba;
-} qry[101];
-
-int main() {
-    scanf("%d", &n);
-    for (int i = 0; i < n; i++) {
-        scanf("%d %d %d", &qry[i].num, &qry[i].st, &qry[i].ba);
     }
-    
-    for (int i = 123; i <= 987; i++) {
-        int cnt = 0;
-        a[0] = i/100, a[1] = i/10%10, a[2] = i%10;
-        if (!a[1] || !a[2] || a[0] == a[1] || a[1] == a[2] || a[2] == a[0]) continue;
-        for (int j = 0; j < n; j++) {
-            int st = 0, ba = 0, t = qry[j].num;
-            b[0] = t/100, b[1] = t/10%10, b[2] = t%10;
-            for (int k = 0; k < 3; k++) {
-                if (a[k] == b[k]) st++;
-                if (a[k] == b[(k+1)%3] || a[k] == b[(k+2)%3]) ba++;
+    return 1;
+}
+int ball()
+{
+    int i,j,k,cnt,flag;
+    for(i=0;i<n;i++)
+    {
+        cnt=0;
+        for(j=0;j<3;j++)
+        {
+            flag=0;
+            for(k=0;k<3;k++)
+            {
+                if(j!=k&&d[i].t[j]==num[k])flag=1;
             }
-            if (st == qry[j].st && ba == qry[j].ba) cnt++;
+            if(flag)cnt++;
         }
-        if (cnt == n) ans++;
+        if(cnt!=d[i].b)return 0;
     }
-    
-    printf("%d", ans);
-    
-    return 0;
+    return 1;
+}
+int main()
+{
+    int i,j,temp,ans=0,flag;
+    cin>> n;
+    for(i=0;i<n;i++)
+    {
+        cin>>temp>>d[i].s>>d[i].b;
+        dini(temp,i);
+    }
+    for(i=100;i<=999;i++)
+    {
+        flag=0;
+        ini(i);
+        for(j=0;j<3;j++)
+        {
+            ck[num[j]]++;
+            if(ck[num[j]]>=2)
+            {
+                flag=1;
+                break;
+            }
+            if(num[j]==0)flag=1;
+        }
+        for(j=0;j<10;j++)ck[j]=0;
+        if(flag==1)continue;
+        if(strike()&&ball())ans++;
+    }
+    cout << ans;
 }
